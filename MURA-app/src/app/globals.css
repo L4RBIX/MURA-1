@@ -1,0 +1,221 @@
+@import "tailwindcss";
+
+@theme {
+  /*
+   * ## The palette
+   *
+   * The previous one had a single failure that produced every complaint about
+   * the product looking unfinished: page #eee8df, surfaces #f5f2eb and the
+   * navigation rail all sat within four points of luminance of each other, so
+   * nothing separated from anything. "Warm" had become "one flat field of
+   * beige", and no amount of spacing fixes a palette with no tonal distance in
+   * it.
+   *
+   * Three moves:
+   *
+   *   1. The page moves toward ivory and the raised surface toward white, so a
+   *      card is visibly a card before a border or shadow is applied.
+   *   2. Ink gets a cool undertone (from the reference's #040415) and gains a
+   *      deeper step used for *filled* surfaces. A near-black block on warm
+   *      ivory is the strongest contrast this world allows, and it is what
+   *      carries emphasis now — not a bigger card.
+   *   3. The two accents stay exactly where the brief pinned them and are used
+   *      only for interaction and identity, never as decoration.
+   */
+  --color-ink: #14141c;        /* body copy, headings */
+  --color-ink-deep: #0a0a12;   /* filled surfaces and the largest type */
+  --color-paper: #f2efe7;      /* the page */
+  --color-raised: #fbf9f5;     /* cards, rails, anything that lifts */
+  --color-sand: #e7e1d5;       /* inactive chips, tonal fills, dividers with weight */
+
+  /*
+   * Secondary text. Measured on both surfaces the product uses, because this
+   * token carries almost every date, byline and detail line, and the readers
+   * of a family archive are often grandparents.
+   *
+   *   5.11:1 on paper, 5.58:1 on raised — comfortably past the 4.5:1 floor,
+   *   and still unmistakably secondary next to ink (15.9:1).
+   */
+  --color-muted: #6a6459;
+
+  /* Identity. Interaction and people, never decoration. */
+  --color-peach: #e6d2c4;
+  --color-peach-deep: #cfa98c;
+  --color-periwinkle: #c0c8e3;
+  --color-periwinkle-deep: #93a0cd;
+  --color-sage: #bcc7b8;
+
+  /*
+   * State colours, deliberately desaturated: an archive of family memory
+   * should be able to report a problem without looking like an error console.
+   */
+  --color-danger: #8f2f21;
+  --color-danger-surface: #f2dcd6;
+  --color-warning: #7a5410;
+  --color-warning-surface: #f0e3c8;
+  --color-success: #2f6b3f;
+
+  --container-reading: 70ch;   /* long-form prose; ~63 Cyrillic chars at 18px */
+  --container-form: 560px;     /* settings, auth, single-column forms */
+  --container-default: 720px;  /* lists and cards */
+  --container-focus: 520px;    /* record/processing: one task, nothing beside it */
+  --container-wide: 1100px;    /* dense multi-column surfaces */
+  --container-wide-2xl: 1280px; /* the same surfaces once the window is 1536+ */
+  --container-measure: 46ch;   /* short helper text inside an already-bounded parent */
+
+  --font-sans: "SF Pro Display", "SF Pro Text", -apple-system,
+    BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", ui-sans-serif, system-ui,
+    sans-serif;
+
+  /*
+   * ## Type scale
+   *
+   * The old scale topped out at 28px for a page title and 1.75rem for the
+   * "emotional" step, which is a caption-sized product. Nothing read as
+   * confident because nothing was allowed to be large.
+   *
+   * Body is 17px, not 16: a memoir is read, not scanned, and the extra point
+   * is worth more here than the density it costs.
+   */
+  --text-caption: 0.8125rem;    /* 13 — datelines, counts, never prose */
+  --text-meta: 0.9375rem;       /* 15 — bylines, secondary lines */
+  --text-body: 1.0625rem;       /* 17 — default reading and UI text */
+  --text-item: 1.1875rem;       /* 19 — card and list-item headings */
+  --text-reading: 1.1875rem;    /* 19 — long-form story prose */
+  --text-section: 1.5rem;       /* 24 — section headings */
+  --text-title: clamp(2rem, 3.4vw, 2.75rem);      /* 32-44 — page titles */
+  --text-display: clamp(2.75rem, 5.6vw, 4.5rem);  /* 44-72 — hero only */
+
+  --radius-control: 0.75rem;    /* 12 — inputs, small buttons */
+  --radius-surface: 1rem;       /* 16 — list items, cards */
+  --radius-panel: 1.5rem;       /* 24 — large panels, sheets */
+
+  /*
+   * Elevation. Each carries an offset and a soft blur — a zero-offset halo is
+   * decoration, not depth. Tinted with the ink hue rather than pure black so a
+   * shadow on warm paper does not read as grey.
+   */
+  --shadow-soft: 0 1px 2px rgb(20 20 28 / 0.04), 0 4px 14px rgb(20 20 28 / 0.05);
+  --shadow-card: 0 2px 4px rgb(20 20 28 / 0.05), 0 12px 30px rgb(20 20 28 / 0.08);
+  --shadow-lift: 0 4px 8px rgb(20 20 28 / 0.06), 0 22px 48px rgb(20 20 28 / 0.12);
+
+  --ease-swift: cubic-bezier(0.23, 1, 0.32, 1);
+
+  --animate-breathe: breathe 2.8s ease-out infinite;
+  --animate-caret: caret 1.1s step-end infinite;
+  --animate-glow: glow 2.6s ease-in-out infinite;
+
+  @keyframes breathe {
+    from {
+      transform: scale(1);
+      opacity: 0.5;
+    }
+    to {
+      transform: scale(1.3);
+      opacity: 0;
+    }
+  }
+
+  @keyframes caret {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes glow {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgb(232 212 194 / 0.85);
+    }
+    50% {
+      box-shadow: 0 0 7px 3px rgb(232 212 194 / 0.85);
+    }
+  }
+}
+
+@layer base {
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior-y: none;
+  }
+
+  ::selection {
+    background-color: var(--color-peach);
+  }
+}
+
+/*
+ * Reserved band for the floating language switcher.
+ *
+ * This used to apply to every screen in the product, because the switcher was
+ * pinned to the top-right of every screen. It is now only on the three
+ * pre-product screens (landing, sign-in, sign-up), where a Kazakh speaker has
+ * to be able to switch before there is any Settings to switch in. Inside the
+ * app, language lives in Settings and the desktop rail, and the 56px band it
+ * cost every page has gone back to the content.
+ */
+@utility pt-chrome {
+  padding-top: calc(max(env(safe-area-inset-top), 14px) + 42px);
+}
+
+/* Where in-app page content begins: notch clearance plus the page rhythm. */
+@utility pt-screen {
+  padding-top: calc(max(env(safe-area-inset-top), 12px) + 6px);
+}
+
+/*
+ * The page gutter.
+ *
+ * Every screen was writing `px-5 sm:px-6 lg:px-8` by hand, so the gutter was a
+ * convention held together by copy-paste — and a screen that forgot one step
+ * simply had a different margin from its neighbours. One utility, one answer,
+ * and the `2xl` step exists because a 20px gutter on a 1920px window looks like
+ * the content is trying to escape.
+ */
+@utility px-page {
+  padding-inline: 1.25rem;
+  @media (width >= 40rem) { padding-inline: 1.5rem; }
+  @media (width >= 64rem) { padding-inline: 2rem; }
+  @media (width >= 96rem) { padding-inline: 2.5rem; }
+}
+
+/*
+ * Focus ring.
+ *
+ * This exact four-class incantation was repeated in 14 components. Repetition
+ * is how a control eventually ships without it: nothing fails, the ring is just
+ * quietly absent. One name, applied everywhere, and a missing ring becomes a
+ * missing word rather than a missing pattern.
+ */
+@utility focus-ring {
+  &:focus-visible {
+    outline: 2px solid --alpha(var(--color-ink) / 40%);
+    /* A round button wants the ring further out than a text link does, so the
+       offset is a variable rather than a second copy of the whole rule:
+       `[--focus-ring-offset:8px]` on the element that needs it. */
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+}
+
+/* Paper grain, layered once over the whole app at very low opacity. */
+@utility grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
